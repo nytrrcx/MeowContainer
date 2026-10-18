@@ -1,34 +1,25 @@
-# Home Screen shortcuts
+# Native Home Screen shortcuts
 
-The native **Add to Home Screen → Create shortcut** action opens this static
-launcher with the app's name, PNG icon, and encoded launch URL. In Safari the user
-chooses **Share → Add to Home Screen → Add**. No configuration profile is used.
-The selected data container and the current MeowContainer copy are retained.
+The browser-based Create shortcut action has been removed. MeowContainer no
+longer opens this website to prepare or launch a Home Screen shortcut.
+The page remains only to retire the old service worker and explain the change
+to anyone who installed a web icon from the previous build.
 
-## Hosting
+Use the original LiveContainer workflow:
 
-Enable GitHub Pages for this fork, choosing the branch containing these files
-and the `/docs` folder. The expected URL is
-`https://nytrrcx.github.io/MeowContainer/shortcut/`.
-Before distributing a build, check that this URL returns the launcher. If moving
-to another fork or hostname, update `LCHomeScreenShortcut.pageURL` in Swift.
-The repository's existing build workflow does not publish or enable this site.
+1. Select the app's data container in MeowContainer.
+2. Hold the app and choose Add to Home Screen → Copy Launch URL.
+3. In Apple's Shortcuts app, create a shortcut with MeowContainer's **Launch App**
+   action and paste the URL into its Launch URL parameter.
+4. Add that shortcut to the Home Screen. Use Save App Icon in MeowContainer to
+   export the app's icon if needed.
 
-## Data and offline behavior
+Launch App runs through the existing LaunchAppExtension. Keep the required app
+extensions when installing/signing the IPA. It does not use this website or
+Safari. The existing Open URLs action is an alternative native shortcut.
 
-Only a hash identifying the shortcut is put in the query string. The name,
-image, and launch URL are encoded in the URL fragment, which isn't included in
-HTTP requests. There are no external scripts, analytics, or icon uploads.
-The page accepts only `livecontainer[digits]://livecontainer-launch` links with
-the bundle name and optional data container.
+Automatic creation/import of a complete native Launch App shortcut has **not**
+been implemented. Do not label a website bookmark or an unsigned `.shortcut`
+export as equivalent to that feature.
 
-The service worker caches the static launcher. An installed Home Screen web app
-needs internet on its first launch to populate its own cache. Safari can evict
-that cache; the page must remain hosted. Bump the service worker cache version
-when updating the static assets.
-
-## Validation
-
-Run `node tests/home-screen-shortcut.test.cjs` from the repository root.
-Installation, the copied icon, and handoff to MeowContainer still need a real
-iPhone/iPad check; a desktop browser cannot verify those iOS behaviors.
+Official guide: https://livecontainer.github.io/docs/guides/add-to-home-screen

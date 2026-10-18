@@ -186,9 +186,6 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
             title: "lc.appBanner.addToHomeScreen".loc,
             image: UIImage(systemName: "plus.app"),
             children: [
-                UIAction(title: "lc.appBanner.createShortcut".loc, image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
-                    self?.createHomeScreenShortcut()
-                },
                 UIAction(title: "lc.appBanner.copyLaunchUrl".loc, image: UIImage(systemName: "link")) { [weak self] _ in
                     self?.copyLaunchUrl()
                 },
@@ -308,23 +305,6 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
             containerID: configuration.model.uiSelectedContainer?.folderName
         ) else { return }
         UIPasteboard.general.string = url.absoluteString
-    }
-
-    private func createHomeScreenShortcut() {
-        do {
-            let url = try LCHomeScreenShortcut.pageURL(
-                for: configuration.model.appInfo,
-                containerID: configuration.model.uiSelectedContainer?.folderName,
-                darkIcon: configuration.darkModeIcon
-            )
-            UIApplication.shared.open(url, options: [:]) { [weak self] opened in
-                if !opened {
-                    self?.showError("lc.homeShortcut.cannotOpen".loc)
-                }
-            }
-        } catch {
-            showError(error.localizedDescription)
-        }
     }
 
     private func createAppClip() async {

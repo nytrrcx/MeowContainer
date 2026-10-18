@@ -33082,40 +33082,6 @@
           }
         }
       }
-    },
-    "lc.appBanner.createShortcut" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create shortcut"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Создать ярлык"
-          }
-        }
-      }
-    },
-    "lc.homeShortcut.cannotOpen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unable to open the browser."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось открыть браузер."
-          }
-        }
-      }
     }
   },
   "version" : "1.0"

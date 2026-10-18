@@ -5,6 +5,7 @@ import Intents
 @objc class AppDelegate: UIResponder, UIApplicationDelegate {
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? ) -> Bool {
+        UIView.appearance().tintColor = UIColor(named: "AccentColor") ?? .systemPink
         application.shortcutItems = nil
         UserDefaults.standard.removeObject(forKey: "LCNeedToAcquireJIT")
         

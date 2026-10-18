@@ -21,9 +21,9 @@ private struct LaunchPriorityLC: Identifiable, Hashable {
 }
 
 private let knownLiveContainers = [
-    LaunchPriorityLC(scheme: "livecontainer", displayName: "LiveContainer"),
-    LaunchPriorityLC(scheme: "livecontainer2", displayName: "LiveContainer2"),
-    LaunchPriorityLC(scheme: "livecontainer3", displayName: "LiveContainer3")
+    LaunchPriorityLC(scheme: "livecontainer", displayName: "MeowContainer"),
+    LaunchPriorityLC(scheme: "livecontainer2", displayName: "MeowContainer2"),
+    LaunchPriorityLC(scheme: "livecontainer3", displayName: "MeowContainer3")
 ]
 
 struct InstallAnotherLCButton : View {
@@ -42,7 +42,7 @@ struct InstallAnotherLCButton : View {
             Task { await delegate.installAnotherLC(name: lcName)}
         } label: {
             HStack {
-                Text(lcName)
+                Text(lcName.replacingOccurrences(of: "LiveContainer", with: "MeowContainer"))
                 Spacer()
                 if detected {
                     Text("✓")

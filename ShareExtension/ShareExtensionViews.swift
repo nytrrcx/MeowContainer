@@ -55,9 +55,10 @@ struct ShareExtensionRootView: View {
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
-            .navigationTitle(Text("LiveContainer"))
+            .navigationTitle(Text("MeowContainer"))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .tint(Color("AccentColor", bundle: UserDefaults.lcMainBundle()))
     }
 
     private func suggestedSection(apps: [ShareApp], showsInstallAction: Bool) -> some View {

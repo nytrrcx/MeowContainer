@@ -129,20 +129,22 @@ final class LCAppBannerRootView: UIView {
         appInfo: LCAppInfo,
         dynamicColors: Bool,
         darkModeIcon: Bool,
+        pastelColor: LCThemeColor?,
         traitCollection: UITraitCollection
     ) {
+        let pastel = pastelColor.map { LCPastelCardColors(color: $0, isDark: traitCollection.userInterfaceStyle == .dark) }
         let icon = appInfo.iconIsDarkIcon(darkModeIcon) ?? UIImage()
         let mainColor = Self.extractMainHueColor(appInfo: appInfo, icon: icon, darkModeIcon: darkModeIcon)
-        let accentColor = dynamicColors ? mainColor : (UIColor(named: "FontColor") ?? .systemBlue)
-        let textColor = Self.readableTextColor(for: accentColor, traitCollection: traitCollection)
+        let accentColor = pastel?.button ?? (dynamicColors ? mainColor : (UIColor(named: "FontColor") ?? .systemPink))
+        let textColor = pastel?.text ?? Self.readableTextColor(for: accentColor, traitCollection: traitCollection)
 
         iconImageView.image = icon
         nameLabel.text = model.displayName
-        nameLabel.textColor = .label
+        nameLabel.textColor = pastel?.text ?? .label
         versionLabel.text = "\(model.version) - \(model.bundleIdentifier)"
         versionLabel.textColor = textColor
         remarkLabel.text = model.uiRemark
-        remarkLabel.textColor = textColor.withAlphaComponent(0.8)
+        remarkLabel.textColor = pastel == nil ? textColor.withAlphaComponent(0.8) : textColor
         remarkLabel.isHidden = model.uiRemark.isEmpty
         containerLabel.text = model.uiSelectedContainer?.name ?? "lc.appBanner.noDataFolder".loc
         containerLabel.textColor = textColor
@@ -154,13 +156,14 @@ final class LCAppBannerRootView: UIView {
         lockBadge.isHidden = !model.uiIsLocked || model.uiIsHidden
         lockBadge.backgroundColor = UIColor(named: "BadgeColor") ?? .systemOrange
         bit32Badge.isHidden = !model.uiIs32bit
-        bit32Badge.backgroundColor = UIColor(named: "32BitBadgeColor") ?? .systemBlue
+        bit32Badge.backgroundColor = UIColor(named: "32BitBadgeColor") ?? .systemPink
 
-        visualBackgroundView.backgroundColor = dynamicColors
+        visualBackgroundView.backgroundColor = pastel?.background ?? (dynamicColors
             ? mainColor.withAlphaComponent(0.5)
-            : (UIColor(named: "AppBannerBG") ?? .secondarySystemBackground)
+            : (UIColor(named: "AppBannerBG") ?? .secondarySystemBackground))
         runControl.update(
             color: accentColor,
+            foregroundColor: pastel?.buttonText ?? .white,
             isSigning: model.isSigningInProgress,
             progress: model.signProgress,
             isEnabled: !model.isAppRunning
@@ -386,9 +389,11 @@ final class LCAppBannerRunControl: UIControl {
         bounds.insetBy(dx: -4, dy: -6).contains(point)
     }
 
-    func update(color: UIColor, isSigning: Bool, progress: Double, isEnabled: Bool) {
+    func update(color: UIColor, foregroundColor: UIColor = .white, isSigning: Bool, progress: Double, isEnabled: Bool) {
         self.progress = min(max(progress, 0), 1)
         self.isEnabled = isEnabled
+        titleLabel.textColor = foregroundColor
+        activityIndicator.color = foregroundColor
 
         baseLayer.backgroundColor = color.withAlphaComponent(isSigning ? 0.2 : 1).cgColor
         progressCircleLayer.backgroundColor = color.cgColor

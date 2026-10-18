@@ -18,6 +18,7 @@ struct LCTabView: View {
     @State var shouldToggleMainWindowOpen = false
     @Environment(\.scenePhase) var scenePhase
     @StateObject var downloadHelper = DownloadHelper()
+    private var appearance = LCAppearance()
 
     let pub = NotificationCenter.default.publisher(for: UIScene.didDisconnectNotification)
     
@@ -49,6 +50,9 @@ struct LCTabView: View {
                 }
                 .tag(LCTabIdentifier.settings)
         }
+        .tint(appearance.accentColor)
+        .meowBackground()
+        .preferredColorScheme(appearance.preferredColorScheme)
         .downloadAlert(helper: downloadHelper)
         .environmentObject(downloadHelper)
         .alert("lc.common.error".loc, isPresented: $errorShow){

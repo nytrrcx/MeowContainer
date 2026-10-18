@@ -22,9 +22,9 @@ enum JITEnablerType : Int, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .StikJIT: "StikDebug"
-        case .StikJITLC: "StikDebug (Another LiveContainer/Multitask)"
+        case .StikJITLC: "StikDebug (Another MeowContainer/Multitask)"
         case .StosDebug: "StosDebug"
-        case .StosDebugLC: "StosDebug (Another LiveContainer/Multitask)"
+        case .StosDebugLC: "StosDebug (Another MeowContainer/Multitask)"
         case .SideStore: "SideStore"
         case .JITStreamerEBLegacy: "JitStreamer-EB (Relaunch)"
         case .SideJITServer: "SideJITServer/JITStreamer 2.0"
@@ -51,7 +51,6 @@ struct LCSettingsView: View {
     @AppStorage("LCOpenWebPageWithoutAsking") var silentOpenWebPage = false
     @AppStorage("LCDontSignApp", store: LCUtils.appGroupUserDefault) var dontSignApp = false
     @AppStorage("LCStrictHiding", store: LCUtils.appGroupUserDefault) var strictHiding = false
-    @AppStorage("dynamicColors", store: LCUtils.appGroupUserDefault) var dynamicColors = true
     @AppStorage("darkModeIcon", store: LCUtils.appGroupUserDefault) var darkModeIcon = false
     
     @AppStorage("LCSideJITServerAddress", store: LCUtils.appGroupUserDefault) var sideJITServerAddress : String = ""
@@ -202,8 +201,10 @@ struct LCSettingsView: View {
                 }
                 
                 Section{
-                    Toggle(isOn: $dynamicColors) {
-                        Text("lc.settings.dynamicColors".loc)
+                    NavigationLink {
+                        LCAppearanceSettingsView()
+                    } label: {
+                        Text("lc.appearance.title".loc)
                     }
                     if #available(iOS 18.0, *) {
                         Toggle(isOn: $darkModeIcon) {
@@ -214,7 +215,7 @@ struct LCSettingsView: View {
                 } header: {
                     Text("lc.settings.interface".loc)
                 } footer: {
-                    Text("lc.settings.dynamicColors.desc".loc)
+                    Text("lc.appearance.description".loc)
                 }
                 Section{
                     Toggle(isOn: $frameShortIcon) {
@@ -377,6 +378,7 @@ struct LCSettingsView: View {
                     }
                 }
             }
+            .meowBackground()
             .navigationBarTitle("lc.tabView.settings".loc)
             .alert("lc.common.error".loc, isPresented: $errorShow){
             } message: {

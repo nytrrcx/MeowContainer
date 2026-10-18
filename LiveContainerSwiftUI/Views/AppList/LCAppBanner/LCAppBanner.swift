@@ -21,8 +21,9 @@ struct LCAppBanner: UIViewControllerRepresentable {
 
     @ObservedObject var model: LCAppModel
 
-    @AppStorage("dynamicColors", store: LCUtils.appGroupUserDefault) private var dynamicColors = true
+    @AppStorage("dynamicColors", store: LCUtils.appGroupUserDefault) private var dynamicColors = false
     @AppStorage("darkModeIcon", store: LCUtils.appGroupUserDefault) private var darkModeIcon = false
+    private var appearance = LCAppearance()
     private let sharedModel = DataManager.shared.model
 
     init(appModel: LCAppModel, delegate: LCAppBannerDelegate) {
@@ -31,7 +32,12 @@ struct LCAppBanner: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: Context) -> UIViewController {
-        let viewController = LCAppBannerViewController(delegate: delegate, config: LCAppBannerConfiguration(model: model, dynamicColors: dynamicColors, darkModeIcon: darkModeIcon))
+        let viewController = LCAppBannerViewController(delegate: delegate, config: LCAppBannerConfiguration(
+            model: model,
+            dynamicColors: dynamicColors,
+            darkModeIcon: darkModeIcon,
+            pastelColor: appearance.pastelColor(for: model.bundleIdentifier)
+        ))
         return viewController
     }
 
@@ -42,7 +48,8 @@ struct LCAppBanner: UIViewControllerRepresentable {
         viewController.update(
             model: model,
             dynamicColors: dynamicColors,
-            darkModeIcon: darkModeIcon
+            darkModeIcon: darkModeIcon,
+            pastelColor: appearance.pastelColor(for: model.bundleIdentifier)
         )
     }
 

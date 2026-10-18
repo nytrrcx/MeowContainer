@@ -57,7 +57,7 @@
 
 + (void)launchMultitaskGuestApp:(NSString *)displayName completionHandler:(void (^)(NSNumber *pid, NSError *error))completionHandler {
     if(!self.liveProcessBundleIdentifier) {
-        NSError *error = [NSError errorWithDomain:displayName code:2 userInfo:@{NSLocalizedDescriptionKey: @"LiveProcess extension not found. Please reinstall LiveContainer and select Keep Extensions"}];
+        NSError *error = [NSError errorWithDomain:displayName code:2 userInfo:@{NSLocalizedDescriptionKey: @"LiveProcess extension not found. Please reinstall MeowContainer and select Keep Extensions"}];
         if (completionHandler) completionHandler(nil, error);
         return;
     }
@@ -305,7 +305,8 @@
     [manager createDirectoryAtURL:tmpPayloadPath withIntermediateDirectories:YES attributes:nil error:error];
     if (*error) return nil;
     
-    NSURL *tmpIPAPath = [tmpPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.ipa", newBundleName]];
+    NSString *displayName = [newBundleName stringByReplacingOccurrencesOfString:@"LiveContainer" withString:@"MeowContainer"];
+    NSURL *tmpIPAPath = [tmpPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.ipa", displayName]];
     
 
     [manager copyItemAtURL:bundlePath toURL:[tmpPayloadPath URLByAppendingPathComponent:@"App.app"] error:error];
@@ -315,8 +316,8 @@
     NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithContentsOfURL:infoPath];
     if (!infoDict) return nil;
 
-    infoDict[@"CFBundleDisplayName"] = newBundleName;
-    infoDict[@"CFBundleName"] = newBundleName;
+    infoDict[@"CFBundleDisplayName"] = displayName;
+    infoDict[@"CFBundleName"] = displayName;
     infoDict[@"CFBundleIdentifier"] = [NSString stringWithFormat:@"com.kdt.%@", newBundleName];
     infoDict[@"CFBundleURLTypes"][0][@"CFBundleURLSchemes"][0] = [newBundleName lowercaseString];
     while([infoDict[@"CFBundleURLTypes"] count] > 1) {

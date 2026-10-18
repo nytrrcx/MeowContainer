@@ -11,6 +11,7 @@ struct LCAppBannerConfiguration {
     let model: LCAppModel
     let dynamicColors: Bool
     let darkModeIcon: Bool
+    let pastelColor: LCThemeColor?
 }
 
 
@@ -62,13 +63,15 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
     func update(
         model: LCAppModel,
         dynamicColors: Bool,
-        darkModeIcon: Bool
+        darkModeIcon: Bool,
+        pastelColor: LCThemeColor?
     ) {
         loadViewIfNeeded()
         configuration = LCAppBannerConfiguration(
             model: model,
             dynamicColors: dynamicColors,
-            darkModeIcon: darkModeIcon
+            darkModeIcon: darkModeIcon,
+            pastelColor: pastelColor
         )
         refreshView()
     }
@@ -79,6 +82,7 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
             appInfo: configuration.model.appInfo,
             dynamicColors: configuration.dynamicColors,
             darkModeIcon: configuration.darkModeIcon,
+            pastelColor: configuration.pastelColor,
             traitCollection: traitCollection
         )
     }

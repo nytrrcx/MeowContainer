@@ -395,6 +395,7 @@ struct LCTweaksView: View {
     var body: some View {
         NavigationView {
             LCTweakFolderView(baseUrl: LCPath.tweakPath, isRoot: true)
+                .meowBackground()
         }
         .navigationViewStyle(StackNavigationViewStyle())
 

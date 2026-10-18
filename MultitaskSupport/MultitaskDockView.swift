@@ -986,8 +986,8 @@ struct CollapsedDockView: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            Color.blue.opacity(isHidden ? 0.4 : 0.8),
-                            Color.blue.opacity(isHidden ? 0.3 : 0.6)
+                            Color.accentColor.opacity(isHidden ? 0.4 : 0.8),
+                            Color.accentColor.opacity(isHidden ? 0.3 : 0.6)
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing

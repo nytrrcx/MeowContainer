@@ -540,6 +540,7 @@ struct LCSourcesView: View {
                     }
                 }
             }
+            .meowBackground()
             .navigationTitle("lc.tabView.sources".loc)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -949,7 +950,14 @@ private struct LCSourceAppBanner: View {
     let installAction: (AltStoreSourceApp) -> Void
     
     @AppStorage("dynamicColors") private var dynamicColors = true
+    private var appearance = LCAppearance()
     @Environment(\.colorScheme) var colorScheme
+
+    private var pastel: LCPastelCardColors? {
+        appearance.pastelColor(for: app.bundleIdentifier).map {
+            LCPastelCardColors(color: $0, isDark: colorScheme == .dark)
+        }
+    }
     
     private var primaryColor: Color {
         guard dynamicColors else { return Color("FontColor") }
@@ -957,13 +965,15 @@ private struct LCSourceAppBanner: View {
     }
     
     private var textColor: Color {
+        if let pastel { return Color(uiColor: pastel.text) }
         _ = colorScheme == .dark // trigger refresh
         let color = dynamicColors ? primaryColor : Color("FontColor")
         return color.readableTextColor()
     }
     
     private var backgroundColor: Color {
-        dynamicColors ? primaryColor.opacity(0.5) : Color("AppBannerBG")
+        if let pastel { return Color(uiColor: pastel.background) }
+        return dynamicColors ? primaryColor.opacity(0.5) : Color("AppBannerBG")
     }
     
     private var metadataText: String {
@@ -996,6 +1006,7 @@ private struct LCSourceAppBanner: View {
                     HStack(spacing: 6) {
                         Text(app.name)
                             .font(.system(size: 16)).bold()
+                            .foregroundColor(pastel.map { Color(uiColor: $0.text) } ?? .primary)
                         if app.isBeta {
                             Text("lc.sources.badge.beta".loc.uppercased())
                                 .font(.system(size: 9, weight: .heavy))
@@ -1024,7 +1035,7 @@ private struct LCSourceAppBanner: View {
             } label: {
                 Text("lc.common.install".loc)
                     .bold()
-                    .foregroundColor(.white)
+                    .foregroundColor(pastel.map { Color(uiColor: $0.buttonText) } ?? .white)
                     .lineLimit(1)
                     .frame(height: 32)
                     .minimumScaleFactor(0.1)
@@ -1035,7 +1046,7 @@ private struct LCSourceAppBanner: View {
             .frame(height: 32)
             .fixedSize()
             .background(
-                Capsule().fill(dynamicColors ? primaryColor : Color("FontColor"))
+                Capsule().fill(pastel.map { Color(uiColor: $0.button) } ?? (dynamicColors ? primaryColor : Color("FontColor")))
             )
             .clipShape(Capsule())
         }

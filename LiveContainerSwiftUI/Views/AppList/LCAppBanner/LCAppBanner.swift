@@ -36,7 +36,8 @@ struct LCAppBanner: UIViewControllerRepresentable {
             model: model,
             dynamicColors: dynamicColors,
             darkModeIcon: darkModeIcon,
-            pastelColor: appearance.pastelColor(for: model.bundleIdentifier)
+            pastelColor: appearance.pastelColor(for: model.bundleIdentifier),
+            catEars: appearance.catEars
         ))
         return viewController
     }
@@ -49,7 +50,8 @@ struct LCAppBanner: UIViewControllerRepresentable {
             model: model,
             dynamicColors: dynamicColors,
             darkModeIcon: darkModeIcon,
-            pastelColor: appearance.pastelColor(for: model.bundleIdentifier)
+            pastelColor: appearance.pastelColor(for: model.bundleIdentifier),
+            catEars: appearance.catEars
         )
     }
 

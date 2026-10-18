@@ -1008,6 +1008,15 @@ private struct LCSourceAppBanner: View {
                 SourceIconView(url: app.iconURL)
                     .frame(width: 60, height: 60)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .background(alignment: .top) {
+                        if appearance.catEars {
+                            LCCatEars()
+                                .frame(width: 60, height: 18)
+                                .offset(y: -10)
+                                .allowsHitTesting(false)
+                                .accessibilityHidden(true)
+                        }
+                    }
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
                         Text(app.name)

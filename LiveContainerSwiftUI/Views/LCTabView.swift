@@ -27,26 +27,26 @@ struct LCTabView: View {
             if DataManager.shared.model.multiLCStatus != 2 {
                 LCSourcesView()
                     .tabItem {
-                        Label("lc.tabView.sources".loc, systemImage: "books.vertical")
+                        tabLabel("lc.tabView.sources", icon: .sources, standardIcon: "books.vertical")
                     }
                     .tag(LCTabIdentifier.sources)
             }
             LCAppListView()
                 .tabItem {
-                    Label("lc.tabView.apps".loc, systemImage: "square.stack.3d.up.fill")
+                    tabLabel("lc.tabView.apps", icon: .apps, standardIcon: "square.stack.3d.up.fill")
                 }
                 .tag(LCTabIdentifier.apps)
             if DataManager.shared.model.multiLCStatus != 2 {
                 LCTweaksView()
                     .tabItem{
-                        Label("lc.tabView.tweaks".loc, systemImage: "wrench.and.screwdriver")
+                        tabLabel("lc.tabView.tweaks", icon: .tweaks, standardIcon: "wrench.and.screwdriver")
                     }
                     .tag(LCTabIdentifier.tweaks)
             }
             
             LCSettingsView()
                 .tabItem {
-                    Label("lc.tabView.settings".loc, systemImage: "gearshape.fill")
+                    tabLabel("lc.tabView.settings", icon: .settings, standardIcon: "gearshape.fill")
                 }
                 .tag(LCTabIdentifier.settings)
         }
@@ -118,6 +118,19 @@ struct LCTabView: View {
         }
     }
     
+    @ViewBuilder
+    private func tabLabel(_ title: String, icon: LCMeowTabIcon, standardIcon: String) -> some View {
+        if appearance.catTabBar {
+            Label {
+                Text(title.loc)
+            } icon: {
+                Image(uiImage: icon.image).renderingMode(.template)
+            }
+        } else {
+            Label(title.loc, systemImage: standardIcon)
+        }
+    }
+
     func dispatchURL(url: URL) {
         repeat {
             if url.isFileURL {

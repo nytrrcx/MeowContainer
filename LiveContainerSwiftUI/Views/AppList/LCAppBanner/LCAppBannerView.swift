@@ -13,6 +13,7 @@ final class LCAppBannerRootView: UIView {
 
     private let visualBackgroundView = UIView()
     private let iconImageView = UIImageView()
+    private let catEarsView = LCCatEarsView()
     private let nameLabel = UILabel()
     private let versionLabel = UILabel()
     private let remarkLabel = UILabel()
@@ -90,7 +91,9 @@ final class LCAppBannerRootView: UIView {
         detailStack.isAccessibilityElement = true
 
         runControl.translatesAutoresizingMaskIntoConstraints = false
+        catEarsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(visualBackgroundView)
+        addSubview(catEarsView)
         addSubview(iconImageView)
         addSubview(detailStack)
         addSubview(runControl)
@@ -105,6 +108,11 @@ final class LCAppBannerRootView: UIView {
             iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             iconImageView.widthAnchor.constraint(equalToConstant: 60),
             iconImageView.heightAnchor.constraint(equalToConstant: 60),
+
+            catEarsView.centerXAnchor.constraint(equalTo: iconImageView.centerXAnchor),
+            catEarsView.bottomAnchor.constraint(equalTo: iconImageView.topAnchor, constant: 8),
+            catEarsView.widthAnchor.constraint(equalToConstant: 60),
+            catEarsView.heightAnchor.constraint(equalToConstant: 18),
 
             detailStack.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
             detailStack.trailingAnchor.constraint(lessThanOrEqualTo: runControl.leadingAnchor, constant: -10),
@@ -130,6 +138,7 @@ final class LCAppBannerRootView: UIView {
         dynamicColors: Bool,
         darkModeIcon: Bool,
         pastelColor: LCThemeColor?,
+        catEars: Bool,
         traitCollection: UITraitCollection
     ) {
         let pastel = pastelColor.map { LCPastelCardColors(color: $0, isDark: traitCollection.userInterfaceStyle == .dark) }
@@ -139,6 +148,7 @@ final class LCAppBannerRootView: UIView {
         let textColor = pastel?.text ?? Self.readableTextColor(for: accentColor, traitCollection: traitCollection)
 
         iconImageView.image = icon
+        catEarsView.isHidden = !catEars
         nameLabel.text = model.displayName
         nameLabel.textColor = pastel?.text ?? .label
         versionLabel.text = "\(model.version) - \(model.bundleIdentifier)"

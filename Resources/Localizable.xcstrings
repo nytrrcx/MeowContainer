@@ -33014,6 +33014,108 @@
           }
         }
       }
+    },
+    "lc.appearance.catDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cat details"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кошачьи детали"
+          }
+        }
+      }
+    },
+    "lc.appearance.catEars" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ears above app icons"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ушки над иконками приложений"
+          }
+        }
+      }
+    },
+    "lc.appearance.catTabBar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cat tab bar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кошачья нижняя панель"
+          }
+        }
+      }
+    },
+    "lc.appearance.catDetailsDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off the cat tab bar to restore the standard tab icons. Ears can be turned off separately."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключите кошачью панель, чтобы вернуть стандартные значки вкладок. Ушки можно отключить отдельно."
+          }
+        }
+      }
+    },
+    "lc.appBanner.createShortcut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create shortcut"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать ярлык"
+          }
+        }
+      }
+    },
+    "lc.homeShortcut.cannotOpen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to open the browser."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось открыть браузер."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

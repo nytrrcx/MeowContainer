@@ -12,6 +12,7 @@ struct LCAppBannerConfiguration {
     let dynamicColors: Bool
     let darkModeIcon: Bool
     let pastelColor: LCThemeColor?
+    let catEars: Bool
 }
 
 
@@ -64,14 +65,16 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
         model: LCAppModel,
         dynamicColors: Bool,
         darkModeIcon: Bool,
-        pastelColor: LCThemeColor?
+        pastelColor: LCThemeColor?,
+        catEars: Bool
     ) {
         loadViewIfNeeded()
         configuration = LCAppBannerConfiguration(
             model: model,
             dynamicColors: dynamicColors,
             darkModeIcon: darkModeIcon,
-            pastelColor: pastelColor
+            pastelColor: pastelColor,
+            catEars: catEars
         )
         refreshView()
     }
@@ -83,6 +86,7 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
             dynamicColors: configuration.dynamicColors,
             darkModeIcon: configuration.darkModeIcon,
             pastelColor: configuration.pastelColor,
+            catEars: configuration.catEars,
             traitCollection: traitCollection
         )
     }
@@ -182,6 +186,9 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
             title: "lc.appBanner.addToHomeScreen".loc,
             image: UIImage(systemName: "plus.app"),
             children: [
+                UIAction(title: "lc.appBanner.createShortcut".loc, image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
+                    self?.createHomeScreenShortcut()
+                },
                 UIAction(title: "lc.appBanner.copyLaunchUrl".loc, image: UIImage(systemName: "link")) { [weak self] _ in
                     self?.copyLaunchUrl()
                 },
@@ -296,14 +303,27 @@ final class LCAppBannerViewController: UIViewController, UIContextMenuInteractio
 
 
     private func copyLaunchUrl() {
-        guard let relativeBundlePath = configuration.model.appInfo.relativeBundlePath else {
-            return
-        }
+        guard let url = LCHomeScreenShortcut.launchURL(
+            for: configuration.model.appInfo,
+            containerID: configuration.model.uiSelectedContainer?.folderName
+        ) else { return }
+        UIPasteboard.general.string = url.absoluteString
+    }
 
-        if let folderName = configuration.model.uiSelectedContainer?.folderName {
-            UIPasteboard.general.string = "livecontainer://livecontainer-launch?bundle-name=\(relativeBundlePath)&container-folder-name=\(folderName)"
-        } else {
-            UIPasteboard.general.string = "livecontainer://livecontainer-launch?bundle-name=\(relativeBundlePath)"
+    private func createHomeScreenShortcut() {
+        do {
+            let url = try LCHomeScreenShortcut.pageURL(
+                for: configuration.model.appInfo,
+                containerID: configuration.model.uiSelectedContainer?.folderName,
+                darkIcon: configuration.darkModeIcon
+            )
+            UIApplication.shared.open(url, options: [:]) { [weak self] opened in
+                if !opened {
+                    self?.showError("lc.homeShortcut.cannotOpen".loc)
+                }
+            }
+        } catch {
+            showError(error.localizedDescription)
         }
     }
 

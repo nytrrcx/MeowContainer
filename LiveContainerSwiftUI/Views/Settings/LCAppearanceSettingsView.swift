@@ -8,6 +8,15 @@ struct LCAppearanceSettingsView: View {
     var body: some View {
         Form {
             Section {
+                Toggle("lc.appearance.catEars".loc, isOn: appearance.$catEars)
+                Toggle("lc.appearance.catTabBar".loc, isOn: appearance.$catTabBar)
+            } header: {
+                Text("lc.appearance.catDetails".loc)
+            } footer: {
+                Text("lc.appearance.catDetailsDescription".loc)
+            }
+
+            Section {
                 Picker("lc.appearance.cardStyle".loc, selection: appearance.$pastelCards) {
                     Text("lc.appearance.current".loc).tag(false)
                     Text("lc.appearance.pastel".loc).tag(true)

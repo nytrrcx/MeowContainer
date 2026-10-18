@@ -2,6 +2,8 @@ import SwiftUI
 import UIKit
 
 struct LCAppearance: DynamicProperty {
+    @AppStorage("MCCatEars", store: LCUtils.appGroupUserDefault) var catEars = true
+    @AppStorage("MCCatTabBar", store: LCUtils.appGroupUserDefault) var catTabBar = true
     @AppStorage("MCPastelCards", store: LCUtils.appGroupUserDefault) var pastelCards = false
     @AppStorage("MCPastelPalette", store: LCUtils.appGroupUserDefault) var paletteStorage = LCAppearance.defaultPalette
     @AppStorage("MCCustomBackground", store: LCUtils.appGroupUserDefault) var customBackground = false

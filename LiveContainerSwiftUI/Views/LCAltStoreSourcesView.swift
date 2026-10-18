@@ -953,6 +953,12 @@ private struct LCSourceAppBanner: View {
     private var appearance = LCAppearance()
     @Environment(\.colorScheme) var colorScheme
 
+    init(app: AltStoreSourceApp, source: AltStoreSource, installAction: @escaping (AltStoreSourceApp) -> Void) {
+        self.app = app
+        self.source = source
+        self.installAction = installAction
+    }
+
     private var pastel: LCPastelCardColors? {
         appearance.pastelColor(for: app.bundleIdentifier).map {
             LCPastelCardColors(color: $0, isDark: colorScheme == .dark)

@@ -4,7 +4,7 @@
    
 
 <div align="center">
-  <h1><b>LiveContainer</b></h1>
+  <h1><b>MeowContainer</b></h1>
   <p><i>An app launcher that runs iOS apps without actually installing them! </i></p>
 </div>
 <h6 align="center">
